@@ -8,16 +8,19 @@ import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 
 import cn.blankworld.pojo.Product;
+
 /**
- * hibernate 插入
+ * hibernate 增删改操作
+ * 
  * @author Administrator
  *
  */
 public class HibernateDemo01 {
 
-	private static Product p;
+	private Product p;
 
-	public static void main(String[] args) {
+	@Test
+	public void funAdd() {
 		SessionFactory sf = new Configuration().configure().buildSessionFactory();
 		Session session = sf.openSession();
 
@@ -27,18 +30,26 @@ public class HibernateDemo01 {
 		session.beginTransaction();
 
 		for (int i = 1; i <= 10; i++) {
-			p = new Product();
-			p.setName("iphone" + i);
-			p.setPrice((random.nextDouble()*10000));
+			p = new Product((random.nextDouble() * 10000), "iphone" + i);
 			session.save(p);
 		}
 		session.getTransaction().commit();
-
+		session.close();
+		sf.close();
 	}
 
 	@Test
-	public void testFun() {
-		SessionFactory sf =new Configuration().configure().buildSessionFactory();
+	public void funDelete() {
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
 		Session session = sf.openSession();
+
+		session.beginTransaction();
+		
+		Product product = session.get(Product.class, 37);
+		session.delete(product);
+
+		session.getTransaction().commit();
+		session.close();
+		sf.close();
 	}
 }
