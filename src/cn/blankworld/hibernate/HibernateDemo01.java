@@ -8,7 +8,11 @@ import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 
 import cn.blankworld.pojo.Product;
-
+/**
+ * hibernate 插入
+ * @author Administrator
+ *
+ */
 public class HibernateDemo01 {
 
 	private static Product p;
