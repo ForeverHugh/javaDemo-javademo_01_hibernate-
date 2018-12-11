@@ -19,6 +19,9 @@ public class HibernateDemo01 {
 
 	private Product p;
 
+	/**
+	 * add
+	 */
 	@Test
 	public void funAdd() {
 		SessionFactory sf = new Configuration().configure().buildSessionFactory();
@@ -38,17 +41,38 @@ public class HibernateDemo01 {
 		sf.close();
 	}
 
+	/**
+	 * delete
+	 */
 	@Test
 	public void funDelete() {
 		SessionFactory sf = new Configuration().configure().buildSessionFactory();
 		Session session = sf.openSession();
 
 		session.beginTransaction();
-		
+
 		Product product = session.get(Product.class, 37);
 		session.delete(product);
 
 		session.getTransaction().commit();
+		session.close();
+		sf.close();
+	}
+
+	/**
+	 * Alter
+	 */
+	@Test
+	public void funAlter() {
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+		Session session = sf.openSession();
+		Product product = session.get(Product.class, 57);
+		if (product != null) {
+			session.beginTransaction();
+			product.setPrice(500D);
+			session.update(product);
+			session.getTransaction().commit();
+		}
 		session.close();
 		sf.close();
 	}
